@@ -25,3 +25,25 @@ Forcing a push can be done by nesting commands as well:
 The above pushes the changes in local master to heroku master.
 
 
+# Migration
+## やりたいこと
+- [ ] 新バージョンへの対応
+- [ ] Akka-typed への対応
+
+## やったこと
+### 新バージョンへの対応
+- Scala: 2.13.1
+- Akka: 2.6.8
+    - Akka v2.6.x ではScala v2.11 をサポートしない
+- sbt: 0.13.8
+- akkaHttpVersion: 10.2.0
+
+- plugins
+    - sbt-native-packager
+    - sbt-assembly
+    - sbt-multi-jvm
+## MEMO
+### sbt command
+- `projects`でプロジェクトリストを見れる．デフォルトは`akka-in-action`
+- `project up`で"chapter-up-and-running"にcurrent projectを変更
+    
