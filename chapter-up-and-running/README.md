@@ -46,4 +46,6 @@ The above pushes the changes in local master to heroku master.
 ### sbt command
 - `projects`でプロジェクトリストを見れる．デフォルトは`akka-in-action`
 - `project up`で"chapter-up-and-running"にcurrent projectを変更
-    
+
+### Intellij IDEにうまく読み込まれない
+- `.idea/` を削除する？

@@ -1,21 +1,21 @@
 package com.goticks
 
 import akka.actor.ActorSystem
-
 import akka.testkit.{ImplicitSender, TestKit}
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
 
-import org.scalatest.{WordSpecLike, MustMatchers}
-
-class TickerSellerSpec extends TestKit(ActorSystem("testTickets"))
-                         with WordSpecLike
-                         with MustMatchers
-                         with ImplicitSender
-                         with StopSystemAfterAll {
+class TickerSellerSpec
+    extends TestKit(ActorSystem("testTickets"))
+    with AnyWordSpecLike
+    with Matchers
+    with ImplicitSender
+    with StopSystemAfterAll {
   "The TicketSeller" must {
     "Sell tickets until they are sold out" in {
       import TicketSeller._
 
-      def mkTickets = (1 to 10).map(i=>Ticket(i)).toVector
+      def mkTickets = (1 to 10).map(i => Ticket(i)).toVector
       val event = "RHCP"
       val ticketingActor = system.actorOf(TicketSeller.props(event))
 
@@ -28,7 +28,9 @@ class TickerSellerSpec extends TestKit(ActorSystem("testTickets"))
       nrs.foreach(_ => ticketingActor ! Buy(1))
 
       val tickets = receiveN(9)
-      tickets.zip(nrs).foreach { case (Tickets(event, Vector(Ticket(id))), ix) => id must be(ix) }
+      tickets.zip(nrs).foreach {
+        case (Tickets(event, Vector(Ticket(id))), ix) => id must be(ix)
+      }
 
       ticketingActor ! Buy(1)
       expectMsg(Tickets(event))
@@ -39,7 +41,7 @@ class TickerSellerSpec extends TestKit(ActorSystem("testTickets"))
 
       val firstBatchSize = 10
 
-      def mkTickets = (1 to (10 * firstBatchSize)).map(i=>Ticket(i)).toVector
+      def mkTickets = (1 to (10 * firstBatchSize)).map(i => Ticket(i)).toVector
 
       val event = "Madlib"
       val ticketingActor = system.actorOf(TicketSeller.props(event))
@@ -62,7 +64,8 @@ class TickerSellerSpec extends TestKit(ActorSystem("testTickets"))
         case (Tickets(event, bought), ix) =>
           bought.size must equal(secondBatchSize)
           val last = ix * secondBatchSize + firstBatchSize
-          val first = ix * secondBatchSize + firstBatchSize - (secondBatchSize - 1)
+          val first =
+            ix * secondBatchSize + firstBatchSize - (secondBatchSize - 1)
           bought.map(_.id) must equal((first to last).toVector)
       }
 

@@ -9,7 +9,7 @@ import akka.util.Timeout
 
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
-//import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 
 import com.typesafe.config.{ Config, ConfigFactory }
 import scala.util.{ Failure, Success }
@@ -31,6 +31,8 @@ object Main extends App
   // ActorMaterializer() was deprecated
   // https://doc.akka.io/docs/akka/current/project/migration-guide-2.5.x-2.6.x.html#materializer-changes
   //implicit val materializer = ActorMaterializer()
+  implicit val materializer = Materializer.matFromSystem
+
   val bindingFuture: Future[ServerBinding] =
     //Http().bindAndHandle(api, host, port) // HTTPサーバーの起動
     Http().newServerAt(host, port).bind(api)
