@@ -1,14 +1,16 @@
 package com.goticks
 
-import akka.actor.{ ActorRef, Props, ActorSystem }
+import akka.actor.{ActorRef, Props, ActorSystem}
 
-import akka.testkit.{ TestKit, ImplicitSender, DefaultTimeout }
+import akka.testkit.{TestKit, ImplicitSender, DefaultTimeout}
 
-import org.scalatest.{ WordSpecLike, MustMatchers }
+import org.scalatest.wordspec.AnyWordSpecLike
+import org.scalatest.matchers.must.Matchers
 
-class BoxOfficeSpec extends TestKit(ActorSystem("testBoxOffice"))
-    with WordSpecLike
-    with MustMatchers
+class BoxOfficeSpec
+    extends TestKit(ActorSystem("testBoxOffice"))
+    with AnyWordSpecLike
+    with Matchers
     with ImplicitSender
     with DefaultTimeout
     with StopSystemAfterAll {
@@ -34,8 +36,9 @@ class BoxOfficeSpec extends TestKit(ActorSystem("testBoxOffice"))
       import BoxOffice._
       import TicketSeller._
 
-      val boxOffice = system.actorOf(Props(
-          new BoxOffice  {
+      val boxOffice = system.actorOf(
+        Props(
+          new BoxOffice {
             override def createTicketSeller(name: String): ActorRef = testActor
           }
         )
