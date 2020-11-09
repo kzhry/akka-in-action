@@ -18,6 +18,8 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion,
     "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
+    "com.typesafe" % "config" % "1.4.1",
+    "io.netty" % "netty" % "3.10.6.Final",
     "ch.qos.logback" % "logback-classic" % "1.2.3"
   )
 }
@@ -26,3 +28,5 @@ libraryDependencies ++= {
 mainClass in Global := Some("com.goticks.SingleNodeMain")
 
 assemblyJarName in assembly := "goticks-server.jar"
+
+enablePlugins(ClassDiagramPlugin)

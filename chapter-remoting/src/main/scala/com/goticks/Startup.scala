@@ -11,9 +11,9 @@ import akka.http.scaladsl.server.Route
 
 import akka.stream.Materializer
 
-import scala.util.Failure
+import scala.util.{Failure, Success}
 
-trait Startup extends RequestTimeout {
+trait Startup {
   def startup(api: Route)(implicit system: ActorSystem) = {
     val host =
       system.settings.config.getString(
@@ -39,6 +39,7 @@ trait Startup extends RequestTimeout {
       }
       .onComplete {
         // .onFailure { onFailureは2.12でdeprecated onCompleteを利用する
+        case Success(_) => log.info("success")
         case Failure(ex) =>
           log.error(ex, "Failed to bind to {}:{}!", host, port)
           system.terminate()
